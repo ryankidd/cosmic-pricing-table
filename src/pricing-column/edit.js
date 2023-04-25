@@ -29,7 +29,6 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 
 	const headingRef = useRef();
 
-
 	const onChangeHeading = ( newHeading ) => {
 		setAttributes( { heading: newHeading } );
 	};
