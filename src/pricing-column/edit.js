@@ -1,4 +1,4 @@
-import { useEffect } from '@wordpress/element';
+import { useEffect, useState, useRef } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
@@ -9,8 +9,9 @@ import {
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n'
-import { isBlobURL } from '@wordpress/blob';
+import { isBlobURL, revokeBlobURL } from '@wordpress/blob';
 import { useSelect } from '@wordpress/data';
+import { usePrevious } from '@wordpress/compose';
 import {
 	PanelBody,
 	SelectControl,
@@ -22,6 +23,12 @@ import {
 
 function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 	const { heading, text, price, url, alt, id } = attributes;
+	const [ blobURL, setBlobURL ] = useState();
+
+	const prevURL = usePrevious( url );
+
+	const headingRef = useRef();
+
 
 	const onChangeHeading = ( newHeading ) => {
 		setAttributes( { heading: newHeading } );
@@ -40,6 +47,15 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 		noticeOperations.createErrorNotice( message );
 	};
 
+	useEffect( () => {
+		if ( isBlobURL( url ) ) {
+			setBlobURL( url );
+		} else {
+			revokeBlobURL( blobURL );
+			setBlobURL();
+		}
+	}, [ url ] );
+
 	useEffect(() => {
 		if(!id && isBlobURL(url)) {
 			setAttributes({
@@ -49,9 +65,16 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 		}
 	}, []);
 
+	useEffect( () => {
+		if ( url && ! prevURL ) {
+			headingRef.current.focus();
+		}
+	}, [ url, prevURL ] );
+
 	const themeImageSizes = useSelect( ( select ) => {
 		return select( blockEditorStore ).getSettings().imageSizes;
 	}, [] );
+
 	const image = useSelect(
 		( select ) => {
 			const { getMedia } = select( 'core' );
@@ -183,6 +206,7 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 					notices={ noticeUI }
 				/>
 				<RichText
+					ref={ headingRef }
 					placeholder={ __( 'Section Heading', 'cosmic' ) }
 					tagName="h4"
 					onChange={ onChangeHeading }
