@@ -128,21 +128,6 @@ function Edit(_ref) {
   const [blobURL, setBlobURL] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)();
   const prevURL = (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_5__.usePrevious)(url);
   const headingRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
-  const onChangeHeading = newHeading => {
-    setAttributes({
-      heading: newHeading
-    });
-  };
-  const onChangeText = newText => {
-    setAttributes({
-      text: newText
-    });
-  };
-  const onChangePrice = newPrice => {
-    setAttributes({
-      price: newPrice
-    });
-  };
   const onUploadError = message => {
     noticeOperations.removeAllNotices();
     noticeOperations.createErrorNotice(message);
@@ -168,6 +153,25 @@ function Edit(_ref) {
       headingRef.current.focus();
     }
   }, [url, prevURL]);
+  const textControls = {
+    change: {
+      price: newPrice => {
+        setAttributes({
+          price: newPrice
+        });
+      },
+      heading: newHeading => {
+        setAttributes({
+          heading: newHeading
+        });
+      },
+      text: newText => {
+        setAttributes({
+          text: newText
+        });
+      }
+    }
+  };
   const themeImageSizes = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
     return select(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.store).getSettings().imageSizes;
   }, []);
@@ -283,19 +287,19 @@ function Edit(_ref) {
     ref: headingRef,
     placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Section Heading', 'cosmic'),
     tagName: "h4",
-    onChange: onChangeHeading,
+    onChange: textControls.change.heading,
     value: heading,
     allowedFormats: []
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
     placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('{{ tier price }}', 'cosmic'),
     tagName: "p",
-    onChange: onChangePrice,
+    onChange: textControls.change.price,
     value: price,
     allowedFormats: []
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
     placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Section Text', 'cosmic'),
     tagName: "p",
-    onChange: onChangeText,
+    onChange: textControls.change.text,
     value: text,
     allowedFormats: []
   })));

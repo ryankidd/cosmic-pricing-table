@@ -29,18 +29,6 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 
 	const headingRef = useRef();
 
-	const onChangeHeading = ( newHeading ) => {
-		setAttributes( { heading: newHeading } );
-	};
-
-	const onChangeText = ( newText ) => {
-		setAttributes( { text: newText } );
-	};
-
-	const onChangePrice = ( newPrice ) => {
-		setAttributes( { price: newPrice } );
-	};
-
 	const onUploadError = ( message ) => {
 		noticeOperations.removeAllNotices();
 		noticeOperations.createErrorNotice( message );
@@ -69,6 +57,20 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 			headingRef.current.focus();
 		}
 	}, [ url, prevURL ] );
+
+	const textControls = {
+		change: {
+			price: ( newPrice ) => {
+				setAttributes( { price: newPrice } );
+			},
+			heading: ( newHeading ) => {
+				setAttributes( { heading: newHeading } );
+			},
+			text: ( newText ) => {
+				setAttributes( { text: newText } );
+			},
+		}
+	}
 
 	const themeImageSizes = useSelect( ( select ) => {
 		return select( blockEditorStore ).getSettings().imageSizes;
@@ -208,21 +210,21 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 					ref={ headingRef }
 					placeholder={ __( 'Section Heading', 'cosmic' ) }
 					tagName="h4"
-					onChange={ onChangeHeading }
+					onChange={ textControls.change.heading }
 					value={ heading }
 					allowedFormats={ [] }
 				/>
 				<RichText
 					placeholder={ __( '{{ tier price }}', 'cosmic' ) }
 					tagName="p"
-					onChange={ onChangePrice }
+					onChange={ textControls.change.price }
 					value={ price }
 					allowedFormats={ [] }
 				/>
 				<RichText
 					placeholder={ __( 'Section Text', 'cosmic' ) }
 					tagName="p"
-					onChange={ onChangeText }
+					onChange={ textControls.change.text }
 					value={ text }
 					allowedFormats={ [] }
 				/>
