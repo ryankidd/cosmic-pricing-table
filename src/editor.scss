@@ -1,0 +1,79 @@
+.wp-block-cosmic-pricing-table {
+	display: block;
+
+	@for $i from 1 through 6 {
+		&.has-#{$i}-columns {
+			/* stylelint-disable-next-line selector-class-pattern */
+			> .block-editor-inner-blocks > .block-editor-block-list__layout > {
+
+				[data-type="cosmic/pricing-column"] {
+					width: calc(100% / #{$i} - 20px);
+				}
+
+				.block-list-appender {
+					align-items: center;
+					align-self: stretch;
+					border: 1px dashed;
+					display: flex;
+					justify-content: center;
+					min-height: 70px;
+					width: calc(100% / #{$i} - 20px);
+				}
+			}
+		}
+	}
+	/* stylelint-disable-next-line selector-class-pattern */
+	> .block-editor-inner-blocks > .block-editor-block-list__layout {
+		display: flex;
+		flex-wrap: wrap;
+		margin-left: -10px;
+		margin-right: -10px;
+		text-align: center;
+
+		[data-type="cosmic/pricing-column"] {
+			max-width: none;
+			margin: 0;
+		}
+
+		> [data-type="cosmic/pricing-column"] {
+			margin: 10px;
+
+			.block-editor-media-placeholder {
+				margin-bottom: 20px;
+			}
+
+			.wp-block-cosmic-pricing-column-img {
+				position: relative;
+				margin-bottom: 20px;
+
+				&.is-loading img {
+					opacity: 0.3;
+				}
+
+				.components-spinner {
+					bottom: 0;
+					left: 0;
+					margin: auto;
+					position: absolute;
+					right: 0;
+					top: 0;
+				}
+			}
+
+			h4 {
+				color: #222;
+				font-size: 22px;
+				font-size: bold;
+				margin: 0;
+			}
+
+			p {
+				color: #565656;
+				font-size: 16px;
+				font-weight: 300;
+				margin-bottom: 5px;
+				margin-top: 5px;
+			}
+		}
+	}
+}

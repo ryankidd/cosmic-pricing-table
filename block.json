@@ -1,0 +1,22 @@
+{
+	"apiVersion": 2,
+	"name": "cosmic/pricing-table",
+	"title": "Cosmic Pricing Table",
+	"category": "media",
+	"icon": "groups",
+	"description": "A cosmic pricing table.",
+	"keywords": ["Cosmic", "Table", "Pricing"],
+	"supports": {
+		"html": false
+	},
+	"textdomain": "cosmic",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css",
+	"attributes": {
+		"columns": {
+			"type": "number",
+			"default": 3
+		}
+	}
+}
