@@ -87,18 +87,11 @@ function Edit( { attributes, setAttributes, noticeOperations, noticeUI } ) {
 	const imageControls = {
 		select: {
 			image: ( image ) => {
-				if ( ! image || ! image.url ) {
-					setAttributes( {
-						url: undefined,
-						id: undefined,
-						alt: ''
-					} );
-					return;
-				}
+				const noImage = ! image || ! image.url;
 				setAttributes( {
-					url: image.url,
-					id: image.id,
-					alt: image.alt
+					url: noImage ? undefined : image.url,
+					id: noImage ? undefined : image.id,
+					alt: noImage ? '' : image.alt
 				} );
 			},
 			url: ( newURL ) => {
