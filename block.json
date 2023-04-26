@@ -7,7 +7,8 @@
 	"description": "A cosmic pricing table.",
 	"keywords": ["Cosmic", "Table", "Pricing"],
 	"supports": {
-		"html": false
+		"html": false,
+		"align": ["wide"]
 	},
 	"textdomain": "cosmic",
 	"editorScript": "file:./build/index.js",
